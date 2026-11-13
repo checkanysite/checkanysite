@@ -9,7 +9,7 @@ CheckAnySite answers “what is this website?” with evidence. Use it when the 
 
 ## Tools
 
-This plugin's MCP server, `checkanysite`, runs at https://checkanysite.com/mcp. It signs the user in with OAuth the first time a tool is used, so there is no key to ask for. Call the tool that answers the question, with the domain:
+This plugin's MCP server, `checkanysite`, runs at https://checkanysite.com/mcp. It signs the user in with OAuth the first time a tool is used; nothing else needs setting up. Call the tool that answers the question, with the domain:
 
 - `check_website`: Everything we know about a website in one call: AI website builder traces, how ready it is for AI tools, popularity, the technology it runs on, trust signals and score, what it is, and its domain history, each finding with its evidence or source (its DNS records ride along in the structured result).
 - `detect_ai_builder`: Whether a website shows traces of an AI website builder (such as Lovable, Bolt, v0, Base44 or Replit) or of another site builder, with the evidence line for each.
@@ -20,7 +20,7 @@ This plugin's MCP server, `checkanysite`, runs at https://checkanysite.com/mcp. 
 - `get_trust_signals`: Signals about how established and reachable a website is: contact and company details, policy pages, domain age, HTTPS and security setup, and a score out of 100 for how established it looks.
 - `get_domain_history`: A domain's history from public records: when it was registered (domain registry), its first TLS certificate (certificate logs) and when the web archive first captured it.
 
-Each tool answers from our newest stored result by default; pass `source: "scan"` to scan the site now, which costs more credits. A tool for one question costs fewer credits than `check_website`. To verify a fix to a site’s AI readiness, call `get_ai_readiness` with `source: "scan"` once the change is live.
+Each tool answers from our newest stored result by default; with `source: "scan"` it scans the site now, which costs more credits. A tool for one question costs fewer credits than `check_website`. To verify a fix to a site’s AI readiness, call `get_ai_readiness` with `source: "scan"` once the change is live.
 
 ## Reading the result
 
