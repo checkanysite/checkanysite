@@ -1,0 +1,38 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.checkanysite/checkanysite",
+  "title": "CheckAnySite",
+  "description": "What any website is, with evidence: AI builder traces, tech stack, popularity and trust signals.",
+  "version": "1.0.1",
+  "websiteUrl": "https://checkanysite.com/developers",
+  "icons": [
+    {
+      "src": "https://checkanysite.com/apple-touch-icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "180x180"
+      ]
+    },
+    {
+      "src": "https://checkanysite.com/favicon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://checkanysite.com/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer and your API key, free with 300 credits a month at https://checkanysite.com/account/keys. Clients that support OAuth sign in instead.",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

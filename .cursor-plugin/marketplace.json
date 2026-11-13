@@ -1,0 +1,19 @@
+{
+  "name": "checkanysite",
+  "owner": {
+    "name": "CheckAnySite",
+    "email": "hello@checkanysite.com"
+  },
+  "metadata": {
+    "description": "CheckAnySite's MCP server and agent skill",
+    "version": "1.0.1"
+  },
+  "plugins": [
+    {
+      "name": "checkanysite",
+      "source": "plugins/cursor/checkanysite",
+      "description": "What any website is, with evidence: AI builder traces, tech stack, popularity and trust signals.",
+      "version": "1.0.1"
+    }
+  ]
+}

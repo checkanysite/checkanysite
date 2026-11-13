@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "checkanysite": {
+      "type": "http",
+      "url": "https://checkanysite.com/mcp"
+    }
+  }
+}

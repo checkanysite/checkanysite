@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "checkanysite",
+  "version": "1.0.1",
+  "description": "What any website is, with evidence: AI builder traces, tech stack, popularity and trust signals.",
+  "author": {
+    "name": "CheckAnySite",
+    "email": "hello@checkanysite.com",
+    "url": "https://checkanysite.com"
+  },
+  "homepage": "https://checkanysite.com/developers",
+  "repository": "https://github.com/checkanysite/checkanysite",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "website",
+    "ai-detection",
+    "tech-stack",
+    "trust",
+    "seo",
+    "dns",
+    "domain"
+  ]
+}

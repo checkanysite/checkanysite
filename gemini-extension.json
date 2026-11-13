@@ -1,0 +1,11 @@
+{
+  "name": "checkanysite",
+  "version": "1.0.1",
+  "description": "What any website is, with evidence: AI builder traces, tech stack, popularity and trust signals.",
+  "mcpServers": {
+    "checkanysite": {
+      "httpUrl": "https://checkanysite.com/mcp"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}
