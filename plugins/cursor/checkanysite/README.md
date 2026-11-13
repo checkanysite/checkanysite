@@ -20,7 +20,7 @@ This plugin adds CheckAnySite's MCP server and its agent skill to Cursor. Ask ab
 - **Nothing runs on your machine.** The MCP server runs on our side, at https://checkanysite.com/mcp, over HTTPS.
 - **A tool call sends the domain or address you ask about** to that server. CheckAnySite reads the public website, its DNS and public records, and answers. The result is stored and has its own page on https://checkanysite.com, as it would for anyone who checks the site there.
 - **You sign in once, with OAuth in your browser,** to a free CheckAnySite account with 300 credits a month. No file here holds a key.
-- **The agent skill** tells the agent when to use the tools and how to report what they find. Where the MCP server isn't connected, it calls the REST API at https://api.checkanysite.com with a key the user sets in `CHECKANYSITE_API_KEY`, which goes to that API alone.
+- **The agent skill** tells the agent when to use the tools and how to report what they find. It sends nothing itself.
 
 How we handle the data is in our [privacy policy](https://checkanysite.com/privacy); using the service follows its [terms](https://checkanysite.com/terms). Help and security reports: [contact](https://checkanysite.com/contact).
 

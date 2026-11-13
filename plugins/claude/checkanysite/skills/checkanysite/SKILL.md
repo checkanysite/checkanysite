@@ -1,40 +1,26 @@
 ---
 name: checkanysite
-description: Find out what a website is, with evidence for every answer. Tells whether it was built with an AI website builder (Lovable, Bolt, v0 and others), how ready it is for AI tools and what to fix, how popular it is, what it runs on, its trust signals, what it does and how old its domain is. Use it when the user asks about a specific website or domain. Needs a CheckAnySite API key in the CHECKANYSITE_API_KEY environment variable.
+description: Find out what a website is, with evidence for every answer. Tells whether it was built with an AI website builder (Lovable, Bolt, v0 and others), how ready it is for AI tools and what to fix, how popular it is, what it runs on, its trust signals, what it does and how old its domain is. Use it when the user asks about a specific website or domain. Uses the CheckAnySite MCP server that comes with it, which signs the user in.
 ---
 
 # CheckAnySite
 
 CheckAnySite answers “what is this website?” with evidence. Use it when the user asks about a specific site: whether it was built with an AI website builder, whether AI tools can find, read and use it, how popular or established it is, what it runs on, who is behind it, or how old the domain is.
 
-## Setup
+## Tools
 
-- The user needs an API key, free during launch at https://checkanysite.com/account/keys (300 credits a month; more on request).
-- Read it from `CHECKANYSITE_API_KEY`. Never print it, and never put it in a URL.
-- If the CheckAnySite MCP server is connected (https://checkanysite.com/mcp), use its tools instead: `check_website`, `detect_ai_builder`, `get_ai_readiness`, `get_popularity`, `get_tech_stack`, `get_dns_records`, `get_trust_signals`, `get_domain_history`.
+This plugin's MCP server, `checkanysite`, runs at https://checkanysite.com/mcp. It signs the user in with OAuth the first time a tool is used, so there is no key to ask for. Call the tool that answers the question, with the domain:
 
-## Calls
+- `check_website`: Everything we know about a website in one call: AI website builder traces, how ready it is for AI tools, popularity, the technology it runs on, trust signals and score, what it is, and its domain history, each finding with its evidence or source (its DNS records ride along in the structured result).
+- `detect_ai_builder`: Whether a website shows traces of an AI website builder (such as Lovable, Bolt, v0, Base44 or Replit) or of another site builder, with the evidence line for each.
+- `get_ai_readiness`: How easily AI tools (assistants, AI search and agents) can find, read and use a website: a score out of 100 from checks such as its text without scripts, a search listing, a title and description, structured data, a sitemap, llms.txt and files for AI agents (an MCP server card, an API catalog, agent skills), each with its evidence; the level it reaches; and for each gap what to do, with a prompt for an AI coding assistant.
+- `get_popularity`: How popular a website is, from public ranked lists (Chrome UX Report, Majestic Million): a band such as "Top 100K" and each list's rank.
+- `get_tech_stack`: The technologies a website shows (frameworks, site builders, shop systems, analytics, servers) with the evidence for each, and the network announcing its address.
+- `get_dns_records`: A domain's DNS records as we read them over DNS over HTTPS (A, AAAA, CNAME, MX, TXT, NS, CAA, and the AI agents a site names under _agents), whether its answer was validated with DNSSEC, and the network announcing its address.
+- `get_trust_signals`: Signals about how established and reachable a website is: contact and company details, policy pages, domain age, HTTPS and security setup, and a score out of 100 for how established it looks.
+- `get_domain_history`: A domain's history from public records: when it was registered (domain registry), its first TLS certificate (certificate logs) and when the web archive first captured it.
 
-Ask only for the checks the user's question needs: `ai`, `readiness`, `popularity`, `tech`, `dns`, `trust`, `summary` or `history`. Each check costs credits on its own: 1–2 from a stored result, or 1–6 with a new scan. Leave out `checks` to ask for all of them (3 credits stored, 15 with a new scan).
-
-1. Get our stored result, with the checks listed in `?checks=` and separated by commas:
-
-   ```bash
-   curl -s "https://api.checkanysite.com/v1/sites/wikipedia.org?checks=ai,dns" -H "Authorization: Bearer $CHECKANYSITE_API_KEY"
-   ```
-
-2. If the API returns 404 `no_result`, or the result is too old for the question (check `scannedAt`), start a scan with the same checks:
-
-   ```bash
-   curl -s -X POST https://api.checkanysite.com/v1/scans -H "Authorization: Bearer $CHECKANYSITE_API_KEY" \
-     -H "Content-Type: application/json" -d '{"domain": "wikipedia.org", "checks": ["ai", "dns"]}'
-   ```
-
-3. Read the scan at `links.self` every 3 seconds until `complete` is true; reading a scan is free. The first results arrive within seconds, and slower sources follow.
-
-To verify a fix to a site’s AI readiness, start a scan with `"checks": ["readiness"], "again": true` once the change is live. The check runs again once its last result is 3 minutes old.
-
-For several sites, `POST https://api.checkanysite.com/v1/sites/batch` looks up as many as 50 at once, and `POST https://api.checkanysite.com/v1/scans/batch` scans as many as 10; both take `{"domains": [...]}`. Send an `Idempotency-Key` header with every POST request, and the same one when you retry it, so a retry is never charged twice.
+Each tool answers from our newest stored result by default; pass `source: "scan"` to scan the site now, which costs more credits. A tool for one question costs fewer credits than `check_website`. To verify a fix to a site’s AI readiness, call `get_ai_readiness` with `source: "scan"` once the change is live.
 
 ## Reading the result
 
@@ -52,9 +38,7 @@ For several sites, `POST https://api.checkanysite.com/v1/sites/batch` looks up a
 
 - Report what was found, with its evidence or source, and link to `resultUrl` for the full result.
 - Present findings as signals, not verdicts: never call a site safe, legitimate, a scam or fake.
-- Errors come as `{"error": {"code", "message", "docs"}}`; every code is explained at https://docs.checkanysite.com/errors.
-- Watch the credits: prefer stored results. `GET https://api.checkanysite.com/v1/usage` shows what is left.
-- A read-only key gets 403 `read_only_key` when it tries to start a scan. Use stored results, or ask the user for a key with full access.
-- On 429 `rate_limited`, wait the seconds in `Retry-After`. On `quota_exceeded`, `key_limit_reached` or `scan_limit_reached`, stop and tell the user.
+- Check `scannedAt`: a stored result can be old. Scan again when the question is about the site as it is now.
+- When a tool says the credits are used up or a limit is reached, stop and tell the user.
 
-Reference: https://docs.checkanysite.com/llms-full.txt · OpenAPI: https://api.checkanysite.com/v1/openapi.json
+Reference: https://docs.checkanysite.com/mcp
